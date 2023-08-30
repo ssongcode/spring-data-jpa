@@ -7,6 +7,10 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본 생성자 => protected 접근 제한
 @ToString(of = {"id", "username", "age"}) // 연관관계 필드는 ToString 출력 X => 무한 루프의 가능성
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "select m from Member m where m.username = :username"
+)
 public class Member {
 
     @Id @GeneratedValue
@@ -29,6 +33,11 @@ public class Member {
         if (team != null) {
             changeTeam(team);
         }
+    }
+
+    public Member(String username, int age) {
+        this.username = username;
+        this.age = age;
     }
 
     // setter 대신 entity의 속성값을 바꿀 때는 메서드를 활용한다.
